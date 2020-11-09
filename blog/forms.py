@@ -3,24 +3,10 @@ import re
 from django import forms  # создание форм Django (docs)
 from django.core.validators import ValidationError
 
-from .models import Category, BlogPost
+from .models import BlogPost
 
 
-class PostFormExample(forms.Form):
-    title = forms.CharField(max_length=150, label="Заголовок", widget=forms.TextInput(attrs={"class": "form-control"}))
-    subtitle = forms.CharField(max_length=150, label="Подзаголовок",
-                               widget=forms.TextInput(attrs={"class": "form-control"}))
-    body = forms.CharField(label="Основной текст",
-                           widget=forms.Textarea(attrs={
-                               "class": "form-control",
-                               "rows": 5
-                           }))  # label - для пользователей
-    category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория',
-                                      empty_label="Выберите категорию", widget=forms.Select(
-            attrs={"class": "form-control"}))  # empty_label - вместо "---------"
-
-
-class PostForm(forms.ModelForm):  # /\ пример индетичный PostFormExample выше /\
+class PostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['title', 'subtitle', 'body', 'category']
