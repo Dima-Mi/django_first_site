@@ -1,0 +1,7 @@
+/venv/
+/.idea/
+__pycache__/
+/media/
+/templates/Backup and Test/
+/db.sqlite3
+/top

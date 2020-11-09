@@ -1,0 +1,17 @@
+{% load blog_tags %}
+
+{% categories_list as category %}
+
+<li class="nav-item dropdown">
+
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+       aria-haspopup="true" aria-expanded="false">
+        Категории
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 12px">
+        {% for items in category %}
+            <a class="dropdown-item" href="{{ items.get_absolute_url }}">{{ items.title }}</a>
+        {% endfor %}
+    </div>
+</li>

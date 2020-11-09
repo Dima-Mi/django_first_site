@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block tab_content %}
+    {{post_item.title}}
+{% endblock %}
+
+{% block nav_item_acive %}
+    <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+    {% include 'inc/_sidebar_category.html' %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>ы
+    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Контакты</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+            <!-- Title -->
+            <h1 class="mt-4">{{post_item.title}}</h1>
+            <h3 class="mt-4">{{post_item.subtitle}}</h3>
+            <hr>
+            <!-- Date/Time -->
+            <p>Опубликовано: {{post_item.created_at}}</p>
+            <hr>
+            {% if post_item.photo %}
+                <img src="{{ post_item.photo.url }}" class="card-img-top" alt="" width="900">
+            {% endif %}
+            <!-- Post Content -->
+            <p class="lead">{{post_item.body |linebreaks }}</p>
+            <!-- Image Content -->
+        </div>
+        </div>
+    </div>
+{% endblock %}

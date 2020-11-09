@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block tab_content %}
+    О нас
+{% endblock %}
+
+{% block nav_item_acive %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+    {% include 'inc/_sidebar_category.html' %}
+    <li class="nav-item "><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Контакты</a></li>
+    <li class="nav-item active"><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <h1 class="mt-4">О нас</h1>
+                <hr>
+                <!-- Post Content -->
+                <p class="lead">Этой мой блог, которых тысячи. Но это МОЙ блог :)</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

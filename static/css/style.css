@@ -1,0 +1,37 @@
+body {
+    min-width: 320px;
+    font-size: 14px;
+    color: #626262;
+    background-color: LightGray;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: #b4ad9e;
+}
+
+a:hover {
+    color: #898377;
+}
+
+.container.mk-1 {
+    min-width: 70%;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+}
+
+.errorlist {
+    color: red;
+}
+
+.container {
+    min-width: 50%;
+}
+
+.btn.btn-outline-secondary {
+    font-size: 14px;
+}

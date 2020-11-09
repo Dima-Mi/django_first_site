@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block tab_content %} 
+    Добавление поста
+{% endblock %}
+
+{% block nav_item_acive %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+    {% include 'inc/_sidebar_category.html' %}
+    <li class="nav-item active"><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Контакты</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="mt-4">Добавление поста</h1>
+                <hr>
+                <form action="{% url 'add_post' %}" method="post">
+                    {% csrf_token %}        {# Специальная защита. Уникальный токен #}
+                    {{ form.as_p }}         {# Вывод полей form каждый через тег <p> #}
+                    <button type="submit" class="btn btn-outline-secondary btn-block">Добавить пост</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

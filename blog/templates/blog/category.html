@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+
+{% block tab_content %}
+    Категории
+{% endblock %}
+
+
+{% block nav_item_acive %}
+    <li class="nav-item "><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+    {% include 'inc/_sidebar_category.html' %}
+    <li class="nav-item "><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Контакты</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
+{% endblock %}
+
+
+{% block page_content %}
+
+    {% for object in news %}
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col mb-4">
+                    <div class="card">
+                        {% if object.photo %}
+                            <img src="{{ object.photo.url }}" class="card-img-top" alt="" width="100">
+                        {% else %}
+                            <img src="https://picsum.photos/id/870/1200/720?grayscale&blur=2" alt="">
+                        {% endif %}
+                        <div class="card-header">
+                            <small class="text-muted">{{ object.category }}</small>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.title }}</h5>
+                            <p class="card-text">{{ object.subtitle }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Опубликовано: {{ object.created_at }}
+                                <a href='{% url 'post_detail' object.pk %}'
+                                   class="btn btn-outline-secondary float-right">Читать</a></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card">
+                        {% if object.photo %}
+                            <img src="{{ object.photo.url }}" class="card-img-top" alt="" width="100">
+                        {% else %}
+                            <img src="https://picsum.photos/id/870/1200/720?grayscale&blur=2" alt="">
+                        {% endif %}
+                        <div class="card-header">
+                            <small class="text-muted">{{ object.category }}</small>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.title }}</h5>
+                            <p class="card-text">{{ object.subtitle }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Опубликовано: {{ object.created_at }}
+                                <a href='{% url 'post_detail' object.pk %}'
+                                   class="btn btn-outline-secondary float-right">Читать</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Sorry, no articles have been written yet.</p>
+    {% endfor %}
+
+    <div class="container mt-3">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Дальше</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}
