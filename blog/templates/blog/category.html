@@ -17,15 +17,16 @@
 
 {% block page_content %}
 
-    {% for object in news %}
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-2">
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+            {% for object in news %}
                 <div class="col mb-4">
                     <div class="card">
                         {% if object.photo %}
                             <img src="{{ object.photo.url }}" class="card-img-top" alt="" width="100">
                         {% else %}
-                            <img src="https://picsum.photos/id/870/1200/720?grayscale&blur=2" alt="">
+                            <img src="https://picsum.photos/id/870/1200/675?grayscale&blur=2" alt="">
                         {% endif %}
                         <div class="card-header">
                             <small class="text-muted">{{ object.category }}</small>
@@ -41,45 +42,43 @@
                         </div>
                     </div>
                 </div>
-                <div class="col mb-4">
-                    <div class="card">
-                        {% if object.photo %}
-                            <img src="{{ object.photo.url }}" class="card-img-top" alt="" width="100">
-                        {% else %}
-                            <img src="https://picsum.photos/id/870/1200/720?grayscale&blur=2" alt="">
-                        {% endif %}
-                        <div class="card-header">
-                            <small class="text-muted">{{ object.category }}</small>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ object.title }}</h5>
-                            <p class="card-text">{{ object.subtitle }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Опубликовано: {{ object.created_at }}
-                                <a href='{% url 'post_detail' object.pk %}'
-                                   class="btn btn-outline-secondary float-right">Читать</a></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+                <p>Sorry, no articles have been written yet.</p>
+            {% endfor %}
         </div>
-    {% empty %}
-        <p>Sorry, no articles have been written yet.</p>
-    {% endfor %}
+    </div>
 
     <div class="container mt-3">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Дальше</a>
-                </li>
+        <nav aria-label="Page navigation example ">
+            <ul class="pagination justify-content-center ">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link " href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a>
+                    </li>
+                {% endif %}
+
+                {% for p in page_obj.paginator.page_range %}
+                    {% if page_obj.number == p %}
+                        <li class="page-item active"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Дальше</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Дальше</a>
+                    </li>
+                {% endif %}
             </ul>
         </nav>
     </div>

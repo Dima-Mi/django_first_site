@@ -3,7 +3,6 @@
 <html lang="ru">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -35,8 +34,7 @@
                     {% endblock %}
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    {% block temperature_api %}
-                    {% endblock %}
+                    {% include 'inc/_temp_now.html' %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-lg-2" type="search" placeholder="Введите название"

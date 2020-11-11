@@ -1,3 +1,4 @@
+import requests
 from django import template
 
 from blog.models import Category
@@ -10,7 +11,20 @@ def get_categories():  # создание функции получения ка
     return Category.objects.all()  # вызывается {% load blog_tags %} и {% get_categories as category %}
 
 
-@register.inclusion_tag('base.html')  # __ПРИМЕР__, в проекте не используется
+@register.inclusion_tag('blog/home.html')  # __ПРИМЕР__, в проекте не используется
 def show_categories():
     categories = Category.objects.all()  # возвращаем dict в blog/home.html и там производим операции
-    return {'categories': categories}  # вызов через {% show_categories %}
+    return {'categories': categories}  # вызов через {% show_categories %} там где надо
+
+
+@register.simple_tag(name='temp_now')
+def temp_now():  # погода в _Минске_ в настоящее время
+    api_url = 'https://api.openweathermap.org/data/2.5/weather'  # API условно бесплатный, но на минимум запросов =)
+    params = {
+        'q': 'Minsk',
+        'appid': 'fe6c9ac08e96ecdd33f559f07bc59da7',
+        'units': 'metric'
+    }
+    res = requests.get(api_url, params=params)
+    data = res.json()
+    return '$'

@@ -27,9 +27,9 @@
             {% if post_item.photo %}
                 <img src="{{ post_item.photo.url }}" class="card-img-top" alt="" width="900">
             {% endif %}
-            <!-- Post Content -->
+            {% autoescape off %}
             <p class="lead">{{post_item.body |linebreaks }}</p>
-            <!-- Image Content -->
+            {% endautoescape %}
         </div>
         </div>
     </div>

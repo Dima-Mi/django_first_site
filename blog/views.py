@@ -1,4 +1,3 @@
-import requests
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import PostForm
@@ -9,13 +8,13 @@ class HomePage(ListView):
     model = BlogPost  # от куда берем данные
     template_name = 'blog/home.html'  # шаблон
     context_object_name = 'object_list'  # название переменной в шаблоне
+    paginate_by = 6
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(HomePage, self).get_context_data(**kwargs)
-        api_url = 'https://api.openweathermap.org/data/2.5/weather?q=Minsk&units=metric&appid=fe6c9ac08e96ecdd33f559f07bc59da7'
-        res = requests.get(api_url)  # погода в Минске в настоящее время
-        data = res.json()
-        context['temp'] = data['main']['temp']  # добавление в общий context - temp (исп в шаблоне html)
+        context['popular'] = BlogPost.objects.all().select_related('category')[0]  # главная новость (по новизне)
+        context['object_list_home'] = BlogPost.objects.all().select_related('category')[1:7]  # остальные новости
+        context['object_list'] = BlogPost.objects.all().select_related('category')[7:]
         return context
 
 
@@ -24,6 +23,7 @@ class CategoryView(ListView):  # ListView для list-объектов
     template_name = 'blog/category.html'
     context_object_name = 'news'
     allow_empty = False  # если пустая категория -> 404
+    paginate_by = 6
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,7 +31,7 @@ class CategoryView(ListView):  # ListView для list-объектов
         return context
 
     def get_queryset(self):  # что надо выводить (фильтрует)
-        return BlogPost.objects.filter(category_id=self.kwargs['category_id'])
+        return BlogPost.objects.filter(category_id=self.kwargs['category_id']).select_related('category')
 
 
 class AddPost(CreateView):  # CreateView для форм

@@ -4,7 +4,11 @@ from .models import BlogPost
 
 
 class SimpleTest(TestCase):  # создание теста на доступность по коду 200/302
-    def test_admin_page_status_code(self):
+
+    def setUp(self):  # создание тестового поста
+        BlogPost.objects.create(body='just a test')
+
+    def test_admin_page_status_code(self):  # всё что начинается с "test_" будет тестом
         response = self.client.get('/admin/')
         self.assertEqual(response.status_code, 302)
 
@@ -12,7 +16,7 @@ class SimpleTest(TestCase):  # создание теста на доступно
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
-    def test_contact_page_status_code(self):
+    def test_add_post_page_status_code(self):
         response = self.client.get('/add-post/')
         self.assertEqual(response.status_code, 200)
 

@@ -14,7 +14,7 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={"class": "form-control"}),
             'subtitle': forms.TextInput(attrs={"class": "form-control"}),
             'body': forms.Textarea(attrs={"class": "form-control", "rows": 5}),
-            'category': forms.Select(attrs={"class": "form-control"})
+            'category': forms.Select(attrs={"class": "form-control"}),
         }
 
     def clean_title(self):  # собственный валидатор на поиск несоответствий
