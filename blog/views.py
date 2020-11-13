@@ -1,20 +1,22 @@
+from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import PostForm
+from .forms import PostForm, UserRegisterForm, UserLoginForm
 from .models import BlogPost, Category
 
 
 class HomePage(ListView):
+    paginate_by = 6
     model = BlogPost  # от куда берем данные
     template_name = 'blog/home.html'  # шаблон
     context_object_name = 'object_list'  # название переменной в шаблоне
-    paginate_by = 6
+    queryset = BlogPost.objects.all().select_related('category')[1:]
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(HomePage, self).get_context_data(**kwargs)
         context['popular'] = BlogPost.objects.all().select_related('category')[0]  # главная новость (по новизне)
-        context['object_list_home'] = BlogPost.objects.all().select_related('category')[1:7]  # остальные новости
-        context['object_list'] = BlogPost.objects.all().select_related('category')[7:]
         return context
 
 
@@ -34,9 +36,10 @@ class CategoryView(ListView):  # ListView для list-объектов
         return BlogPost.objects.filter(category_id=self.kwargs['category_id']).select_related('category')
 
 
-class AddPost(CreateView):  # CreateView для форм
+class AddPost(LoginRequiredMixin, CreateView):  # CreateView для форм
     form_class = PostForm
     template_name = 'blog/add_post.html'
+    login_url = '/'
 
 
 class PostView(DetailView):  # DetailView для определенного объекта
@@ -54,3 +57,32 @@ class AboutView(ListView):
 class ContactView(ListView):
     model = Category
     template_name = 'blog/contact.html'
+
+
+def register_user(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'blog/register.html', {'form': form})
+
+
+def login_user(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserLoginForm()
+    return render(request, 'blog/login.html', {"form": form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('home')

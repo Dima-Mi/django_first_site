@@ -1,6 +1,7 @@
 /venv/
 /.idea/
 __pycache__/
+debug_toolbar/
 /media/
 /templates/Backup and Test/
 /db.sqlite3

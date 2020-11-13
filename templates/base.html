@@ -20,6 +20,7 @@
 </head>
 
 <body style="background-color: AliceBlue;">
+
 <header>
     <div class="container mk-1">
         <nav class="navbar sticky-top navbar-expand-lg navbar-light">
@@ -30,19 +31,44 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    {% block nav_item_acive %}
-                    {% endblock %}
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+
+                    {% include 'inc/_sidebar_category.html' %}
+
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item "><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>
+                    {% endif %}
                 </ul>
-                <ul class="navbar-nav ml-auto">
-                    {% include 'inc/_temp_now.html' %}
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-lg-2" type="search" placeholder="Введите название"
-                           aria-label="Search" style="font-size: 12px; background-color: AliceBlue">
-                    <button class="btn btn-outline-success my-2 my-lg-0" type="submit"
-                            style="font-size: 12px;">Поиск
-                    </button>
-                </form>
+
+
+                {% if request.user.is_authenticated %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 12px">
+                                <a class="dropdown-item" href="{% url 'home' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-lg-2" type="search" placeholder="Введите название"
+                               aria-label="Search" style="font-size: 12px; background-color: AliceBlue">
+                        <button class="btn btn-outline-success my-2 my-lg-0" type="submit"
+                                style="font-size: 12px;">Поиск
+                        </button>
+                    </form>
+                {% else %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item "><a class="nav-link" href="{% url 'register' %}">Регистрация |</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+                    </ul>
+                {% endif %}
+
             </div>
         </nav>
     </div>
@@ -54,6 +80,31 @@
 
 {% endblock %}
 
+<div class="container mk-2">
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="{% static 'img/favicon.ico' %}" alt="" width="50" height="50">
+                <small class="d-block mb-3 text-muted">2020</small>
+            </div>
+            <div class="col-6 col-md">
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'home' %}">Something</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'contact' %}">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'about' %}">О нас</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -65,6 +116,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 </body>
 
 

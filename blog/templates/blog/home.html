@@ -4,14 +4,6 @@
     Главная
 {% endblock %}
 
-{% block nav_item_acive %}
-    <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
-    {% include 'inc/_sidebar_category.html' %}
-    <li class="nav-item "><a class="nav-link" href="{% url 'add_post' %}">Добавить пост</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Контакты</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
-{% endblock %}
-
 {% block page_content %}
 
 
@@ -48,7 +40,7 @@
 
         <div class="container">
             <div class="row row-cols-1 row-cols-md-2">
-                {% for object in object_list_home %}
+                {% for object in object_list %}
                     <div class="col mb-4">
                         <div class="card">
                             {% if object.photo %}

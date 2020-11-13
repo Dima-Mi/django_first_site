@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block tab_content %} 
-    Добавление поста
+    Регистрация
 {% endblock %}
 
 
@@ -9,12 +9,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <h1 class="mt-4">Добавление поста</h1>
+                <h1 class="mt-4">Регистрация</h1>
                 <hr>
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST">
                     {% csrf_token %}        {# Специальная защита. Уникальный токен #}
                     {{ form.as_p }}         {# Вывод полей form каждый через тег <p> #}
-                    <button type="submit" class="btn btn-outline-secondary btn-block">Добавить пост</button>
+                    <button type="submit" class="btn btn-outline-secondary btn-block">Регистрация</button>
                 </form>
             </div>
         </div>
